@@ -15,8 +15,8 @@ export function instantiate(element) {
 
 		updateDomProperties(dom, [], props);
 
-		const childElements = props.children || [];
-		const childInstances = childElements.map(instantiate);
+		const children = props.children || [];
+		const childInstances = children.map(instantiate);
 		const childDoms = childInstances.map(childInstance => childInstance.dom);
 
 		childDoms.forEach(childDom => dom.appendChild(childDom));
@@ -38,6 +38,8 @@ export function instantiate(element) {
 function createPublicInstance(element, internalInstance) {
 	const { type, props } = element;
 	const publicInstance = new type(props);
+
 	publicInstance.__internalInstance = internalInstance;
+
 	return publicInstance;
 }
