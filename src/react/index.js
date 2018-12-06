@@ -24,7 +24,7 @@ export class Component {
 	}
 
 	setState(partialState) {
-		this.state = Object.assign({}, this.state, partialState);
+		this.state = {...this.state, ...partialState};
 		updateInstance(this.__internalInstance);
 	}
 }

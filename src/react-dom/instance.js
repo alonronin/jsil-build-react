@@ -7,7 +7,6 @@ export function instantiate(element) {
 	const isDomElement = typeof type === 'string';
 
 	if (isDomElement) {
-		// Instantiate DOM element
 		const isTextElement = type === TEXT_ELEMENT;
 		const dom = isTextElement
 			? document.createTextNode('')
@@ -23,23 +22,21 @@ export function instantiate(element) {
 
 		return { dom, element, childInstances };
 	} else {
-		// Instantiate component element
-		const instance = {};
-		const publicInstance = createPublicInstance(element, instance);
+		const publicInstance = createPublicInstance(element);
 		const childElement = publicInstance.render();
 		const childInstance = instantiate(childElement);
 		const dom = childInstance.dom;
 
-		Object.assign(instance, { dom, element, childInstance, publicInstance });
-		return instance;
+		publicInstance.__internalInstance = { dom, element, childInstance, publicInstance };
+		return publicInstance.__internalInstance;
 	}
 }
 
-function createPublicInstance(element, internalInstance) {
+function createPublicInstance(element) {
 	const { type, props } = element;
 	const publicInstance = new type(props);
 
-	publicInstance.__internalInstance = internalInstance;
+	publicInstance.__internalInstance = {};
 
 	return publicInstance;
 }

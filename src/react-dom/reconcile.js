@@ -2,33 +2,28 @@ import { instantiate } from './instance';
 import { updateDomProperties } from './';
 
 export function reconcile(parentDom, instance, element) {
-	if (instance == null) {
-		// Create instance
+	if (instance === null) {
 		const newInstance = instantiate(element);
 
 		parentDom.appendChild(newInstance.dom);
 
 		return newInstance;
-	} else if (element == null) {
-		// Remove instance
+	} else if (element === null) {
 		parentDom.removeChild(instance.dom);
 
 		return null;
 	} else if (instance.element.type !== element.type) {
-		// Replace instance
 		const newInstance = instantiate(element);
 
 		parentDom.replaceChild(newInstance.dom, instance.dom);
 
 		return newInstance;
 	} else if (typeof element.type === 'string') {
-		// Update instance
 		updateDomProperties(instance.dom, instance.element.props, element.props);
 		instance.childInstances = reconcileChildren(instance, element);
 		instance.element = element;
 		return instance;
 	} else {
-		//Update composite instance
 		instance.publicInstance.props = element.props;
 		const childElement = instance.publicInstance.render();
 		const oldChildInstance = instance.childInstance;
@@ -60,7 +55,7 @@ function reconcileChildren(instance, element) {
 		newChildInstances.push(newChildInstance);
 	}
 
-	return newChildInstances.filter(instance => instance != null);
+	return newChildInstances.filter(instance => instance !== null);
 }
 
 export function updateInstance(internalInstance) {
