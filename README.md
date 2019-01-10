@@ -3,6 +3,10 @@ DIY - Build your own react
 
 > The code shown at Javascript Israel 12/18 event.
 
+### Video
+
+https://youtu.be/_y3cBj-8kKQ
+
 ### Slides
 
 https://goo.gl/dVvfKz
